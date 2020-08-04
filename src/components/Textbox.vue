@@ -1,15 +1,16 @@
 <template>
-  <div class="editable">
+  <div class="editable" :class="classes">
      <div v-if="!editing">
       <span class='text' @click="enableEditing">{{value}}</span>
     </div>
     <div v-if="editing">
-        <input v-model="tempValue" @keyup="inputData" class="input"/>
-        <a @click="saveEdit" class="custome-btn"> 
-          <img src="https://f0.pngfuel.com/png/811/919/check-icon-png-clip-art.png">
+        <textarea class="form-control" v-if="isMutiLine" v-model="tempValue" @keyup="inputData" required></textarea>
+        <input v-model="tempValue" @keyup="inputData" class="form-control" required v-else/>
+        <a @click="saveEdit" class="custome-btn save"> 
+          &#10003;
         </a>
-        <a @click="disableEditing" class="custome-btn"> 
-            <img src="https://f0.pngfuel.com/png/776/857/check-mark-international-red-cross-and-red-crescent-movement-american-red-cross-red-cross-mark-round-red-x-logo-png-clip-art.png">
+        <a @click="disableEditing" class="custome-btn remove"> 
+            &#10006;
         </a>
     </div>
   </div>
@@ -18,7 +19,7 @@
 export default {
   data () {
     return {
-        value: 'Please enter value',
+        value: this.inputValue,
         tempValue: null,
         editing: false,
     }
@@ -26,12 +27,16 @@ export default {
   props:{
     inputValue: {
       default:"Please enter value"
-    }
-  },
-  watch:{
-    inputValue: (val) =>{
-      this.value = val
     },
+    classes: {},
+    isMutiLine:{
+      type:Boolean,
+      default:false
+    },
+    isNumeric:{
+      type:Boolean,
+      default:false
+    }
   },
   methods: {
     enableEditing(){
@@ -73,10 +78,17 @@ export default {
 .editable .custome-btn {
     width: 20px;
     height: 20px;
-    margin-left: 5px;
+    font-size: 22px;
     cursor: pointer;
 }
 .editable .custome-btn img{
     width: 20px;
+}
+.save{
+    color: #2196F3;
+    font-weight: 900;
+}
+.remove {
+  color: #f32121;
 }
 </style>

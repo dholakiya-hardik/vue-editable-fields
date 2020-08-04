@@ -1,3 +1,5 @@
 import Textbox from './components/Textbox.vue'
-
-export default Textbox
+const components = {
+    Textbox
+}
+export default components
