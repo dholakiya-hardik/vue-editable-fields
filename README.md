@@ -9,25 +9,27 @@ npm i vue-editable-fields
 ### Import 
 
 ```
-import  VueEditableFields from "vue-editable-fields"
+import  {Textbox, Selectbox} from "vue-editable-fields"
 ```
 ### Globle use
 
 ```
-Vue.use(VueEditableFields)
+Vue.use(Textbox)
+Vue.use(Selectbox)
 ```
 ### Use in component
 Add below code in components property 
 
 ```
-VueEditableFields
+Textbox, Selectbox
 ```
 ### Add tag in template 
 ```
-<VueEditableFields/>
+<Textbox/>
+<Selectbox>
 ```
 
-#### Prop List 
+#### Textbox Prop List 
 | Prop       | Type     | Required |
 | ---------- | --------:| --------:|
 | inputValue | String   | No       |
@@ -35,9 +37,27 @@ VueEditableFields
 | isNumeric  | Boolean  | No       |
 | isMutiLine | Boolean  | No       |
 
-#### Text fields events
+#### Textbox fields events
 
 | Events     | return   
 | ---------- | --------:
 | input      | String    
 | save       | String  
+
+
+
+#### Selectbox Prop List 
+| Prop               | Type             | Required |
+| ------------------ | ----------------:| --------:|
+| selectedOption     | String           | No       |
+| options            | Array            | No       |
+| showDefaultOption  | Boolean          | No       |
+| classes            | String or Array  | No       |
+| defaultOptionLabel | String           | No       |
+
+#### Selectbox fields events
+
+| Events       | return   
+| ------------ | --------:
+| selectOption | String    
+| save         | String  

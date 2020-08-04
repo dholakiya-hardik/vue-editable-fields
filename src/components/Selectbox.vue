@@ -4,8 +4,12 @@
       <span class='text' @click="enableEditing">{{value}}</span>
     </div>
     <div v-if="editing">
-        <textarea class="form-control" v-if="isMultiLine" v-model="tempValue" @keyup="inputData" required></textarea>
-        <input v-model="tempValue" @keyup="inputData" class="form-control" :type="isNumeric?'number':'text'" @keypress="isNumber($event)" placeholder="Please enter value" required v-else/>
+        <select v-model="tempValue">
+            <option v-if="showDefaultOption" value="">{{defaultOptionLabel}}</option>
+            <!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
+            <option v-for="(val, index) in options" :key="index" :value="val.value" @click="selectOption" v-if="typeof val=='object'">{{val.label}}</option>
+            <option v-for="(val, index) in options" :key="index" :value="val" @click="selectOption" v-if="typeof val=='string'">{{val}}</option>
+        </select>
         <a @click="saveEdit" class="custome-btn save">&#10003;</a>
         <a @click="disableEditing" class="custome-btn remove">&#10006;</a>
     </div>
@@ -13,29 +17,33 @@
 </template>
 <script>
 export default {
-  name:"Textbox",
+  name:"Selectbox",
   data () {
     return {
-        value: this.inputValue,
+        value: this.selectedOption,
         tempValue: null,
         editing: false,
     }
   },
   props:{
-    inputValue: {
+    selectedOption: {
+      type: String,
       default:null
+    },
+    options:{
+        type:Array
+    },
+    showDefaultOption:{
+        type: Boolean,
+        default:true
     },
     classes: {
         type:[String,Array],
         default:null  
     },
-    isMultiLine:{
-      type:Boolean,
-      default:false
-    },
-    isNumeric:{
-      type:Boolean,
-      default:false
+    defaultOptionLabel:{
+        type: String,
+        default:"Please Select"  
     }
   },
   methods: {
@@ -47,20 +55,8 @@ export default {
       this.tempValue = null;
       this.editing = false;
     },
-    isNumber: function(e) {
-      e = (e) ? e : window.event;
-      var charCode = (e.which) ? e.which : e.keyCode;
-      if (this.isNumeric==true && (charCode > 31 && (charCode < 48 || charCode > 57)) && charCode !== 46) {
-        e.preventDefault();
-      } else {
-        return true;
-      }
-    },
-    inputData(e){
-      this.$emit('input',this.tempValue)
-      if(e.keyCode==13){
-        this.saveEdit()
-      }
+    selectOption(){
+      this.$emit('selectOption', this.tempValue)
     },
     saveEdit(){
       this.value = this.tempValue;
@@ -74,15 +70,12 @@ export default {
 .editable span.text:hover {
     border-bottom: 2px dotted;
 }
-.editable input {
+.editable select {
     vertical-align: top;
     border: 0;
     border-bottom: black 2px dotted;
     width: auto;
     min-width: 50px;
-}
-.editable input.input:focus {
-    outline: none;
 }
 .editable .custome-btn {
     width: 20px;
