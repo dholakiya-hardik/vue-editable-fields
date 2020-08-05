@@ -1,6 +1,6 @@
 {
   "name": "vue-editable-fields",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "private": false,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -10,9 +10,6 @@
   },
   "main": "./dist/vue-editable-fields.common.js",
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@fortawesome/vue-fontawesome": "^0.1.10",
     "core-js": "^3.6.5",
     "vue": "^2.6.11"
   },
